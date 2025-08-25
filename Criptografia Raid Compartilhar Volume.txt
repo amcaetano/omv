@@ -1,0 +1,67 @@
+#-------------------------------------- CRIPTOGRAFAR, CONFIGURAR RAID E COMPARTILHAR DISCO NO OPENMEDIAVAULT ----------------------------------------#
+
+#1 PASSO: Fazer update do sistema debian e depois do openmediavault
+
+=> sudo apt update && apt upgrade
+=> System > update management > updates
+
+
+#2 PASSO: Instalar plugin openmediavault-luksencryption 7.0, snapraid, mergerfs
+
+=> system > plugins > pesquisar > openmediavault-luksencryption 7.0 > clicar no botão "install"
+=> OBS: Se ocorrer o erro "507" no momento da instalção, desinstale e depois instale novamente que deve dar certo. Para instalar os demais plugins, basta repetiri os passos do luksencryption.
+
+#3 Limpar os discos para serem configurados
+
+=> storage > disks > selecionar disco > wipe
+
+#4 PASSO: Criptografar volume (se for usar o raid padrão do omv, ou seja o multiple device criptografe depois de criar raid mirror)
+
+=> Storage > encryption > Adicionar > Escolher unidades > Escolher cipher "sha 256" > escolher nome (label) > criar passphrase > save > aplicar
+=> OBS: Após criptografar os volumes clique em "unlock" e digite a "pasphrase" para desbloquear os volumes e isso vale para toda vez que o sistema operacional for iniciado ou reiniciado caso contrário o compartilhamento não fuinionará de forma alguma.
+
+#5 PASSO: Criar file system
+
+=> Storage > file system > escolher ext4 > save > aplicar
+=> OBS: No momento do mount, nomeie os volumes de dados e paridade para facilitar na hora de configurar os demais serviços: Mergerfs, snapraid, shared folder, smb/cifs etc.
+
+#6 PASSO: Criar o raid com snapraid
+
+=> service > snapraid> Adicionar discos > escolher data/content > save > aplicar
+=> service > snapraid> Adicionar discos > escolher parity > save > aplicar
+=> OBS.: escolher a opção padrão para configurar um disco unico para armazenar os dados de paridade e manter os demais volumes como armazenamento dos dados. 
+
+#7 PASSO: Juntar volumes com o mergerfs
+
+=> Storage > mergerfs > Adicionar > nomear > escolher filesystem > creat policy "most free" > save
+
+#8 PASSO: Criar shared folder
+
+=> storage > shared folders > adicionar unidade criptografada > nomear compartilhamento > save > aplicar
+=> OBS: editar permissões dos usuários e se for necessário criar novos usuários para acessar os arquivos do servidor.
+
+#9 PASSO: Habilitar serviço samba 
+
+=> services > smb/cifs > settings > enable na caixa de seleção > configurar grupo de trabalho da rede > demais opções deixar em padrão > save > aplicar
+=> services > smb/cifs > shares > adicionar > Escolher shared folder > save > aplicar
+
+
+
+0- AUTOR:
+
+Antonio Marcos de Paula Caetano
+
+0- NOTAS:
+
+Após tentar configurar o serviço de criptografia e arranjo de discos raid 1 me deparei com alguns problemas e consgui resolvê-los, entretanto resolvi escrever este documento para fins de consulta pessoal e resolução de forma integral e mais rápidamente dos mesmos problemas relatados nesta documentação.
+
+                                                                     
+0- HISTÓRICO:
+
+30 de Maio de 2024 - Antonio Caetano iniciou o desenvolvimento deste documento.
+
+Última atualização: 27 de maio de 2024.
+
+0- LICENÇA:
+
+Gnu/Gpl

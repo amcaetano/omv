@@ -1,0 +1,13 @@
+#------------------------------------- CONFIGURAÇÕES BÁSICAS DO FILE BROWSER ---------------------------------#
+
+#1 PASSO: Acessar o file browser, ir nas configurações e mudar senha de acesso do admin
+
+=> settings > profile settings > change password
+
+#2 PASSO: Criar usuários para acessar o serviço
+
+=> settings > user management > new
+
+#3 PASSO: Configurar permissões de acesso dos usuários
+
+=> settings > global settings > user default settings

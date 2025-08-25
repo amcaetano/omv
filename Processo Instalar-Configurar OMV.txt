@@ -1,0 +1,95 @@
+
+
+#-------------------------- PROCESSO INSTALAR E CONFIGURAR O OpenMediaVault -----------------------------#
+
+#1 Passo: Instalar o debian sem interface gráfica (Modo servidor), selecionando apenas o suporte a ssh e pacotes essenciais do sistema e servidor web para acesso web do OMV posteriormente, atualizar lista de repositórios (apt update), depois instalar pacotes atualizados do sistema (apt upgrade) - se for uma placa única do orange pi acesse o site oficial do projeto e baixe uma versão adequada para o modelo de placa adquirido e não esquecer que se os arquivos tiverem em formato .zip, .7zip, .xz ou qualquer outro formato que não seja de imagem propriamente é necessário descompactar o arquivo em um diretório de sua preferência antes de gravar no cartão micro sd com o balena etcher ou outra aplicação com este fim como o utilitário ”dd” do linux.
+
+#2 Passo: Baixar e instalar o OpenMediaVault no sistema usando um repositorio do github 
+
+==> sudo apt update
+==> sudo apt install git
+==> sudo wget -O - https://github.com/OpenMediaVault-Plugin-Developers/installScript/raw/master/install | sudo bash
+
+#3 Passo: este passo será necessário se houver alguns erros no momento da instalação do OpenMediaVault (script github), se der erro do servidor web nginx é só remover o servidor apache que vem junto com o sistema e reinicia-lo que o serviço do nginx volta a rodar normalmente. Outro problema comum é relacionado ao "PATH" que é o caminho que o script do github usa para copiar alguns arquivos do OMV, este erro ocorre por que o root está logado e o sistema não consegue carregar estes arquivos e continuar o processo de instalação, daí é só reiniciar o sistema ou logar como usuário normal e executar novamente o comando do script com o "sudo".
+
+#4 Passo: Configurar um ip estático para o servidor OMV usando as linhas abaixo no arquivo /etc/network/interfaces e editar com as informações abaixo:
+
+=> Mude os dados: "enp0s3", "192.168.1.100", "192.168.1.1" e "8.8.8.8 8.8.4.4" pelos dados corretos.
+
+allow-hotplug enp0s3 
+iface enp0s3 inet static
+address 192.168.1.100 
+netmask 255.255.255.0
+gateway 192.168.1.1 
+
+
+=> OBS1: Configuração ip fixo feita pela interface web, local acesso pelo cartão micro sd ==>> /media/nome_user/opi_root/etc/netplan/20-openmediavault-nome_interface.yaml
+
+=> OBS2: Comente com "#" nas linhas abaixo, pois isso desabilitará o dhcp e deixará apenas o ip estático configurado anteriormente.
+
+# allow-hotplug enp0s3
+# iface enp0s3 inet dhcp
+
+#5 Passo: Configurar um ip de servidor dns para o servidor OMV incluindo as linhas abaixo no arquivo /etc/resolv.conf e editar com as informações abaixo:
+
+nameserver 1.1.1.1
+nameserver 1.0.0.1
+
+#6 Passo: Se no momento de acessar a interface web do OMV não aparecer a opção de "software raid" ou "multiple device" é só acessar a seção de plugins e baixar/instalar o pacote "openmediavault-md 7.x-x" que o recurso será disponibilizado na aba storage e você poderá criar os arranjos de raid padrão necessários para o seu servidor.
+
+#7 Passo: Instalar demais plugins: mergerfs, snapraid, lukscryption, file browser
+
+
+
+#-------------------------- PROCESSO INSTALAR E CONFIGURAR DISPOSITIVOS DE ARMAZENAMENTO -----------------------------#
+
+
+#1 Passo: Preparar dispositivos de armazenamento para configuração de serviços
+
+# storage > disks > seleciona dispositivo > wipe > botão Confirma > quick
+ 
+
+#2 Passo: Criptografar dispositivos
+
+# storage > encryption > botão adicionar ”+” > escolher ”device”> escolher ”aes-cbc-essiv:sha256” > digitar ”passphrase” > save
+# storage > encryption > seleciona device > clica ”cadeado aberto” > digita a passphrase
+
+
+#3 Passo: Criar sistema de arquivos para cada dispositivo
+
+# storage > file systems > botão adicionar ”+” > escolhe ext4 > escolhe device > mount device > save
+
+
+#4 Passo: criar volumes com o mergerfs
+
+# storage > mergerfs > botão adicionar ”+” > digita nome > seleciona filesystems > existing path - most free space > save 
+# OBS: O OMV ou mergerfs 7.0 possuem um bug que voce precisa atualizar o os pools criados para que o compartilhamento seja feito para os computadores clientes
+==> storage > mergerfs > selecionar pool > clicar ”restart pool” 
+
+OBS: É altamente recomendável fazer uma cópia de segurança do sistema operacional completo e de todas as suas configurações para prevenir a quebra do sistema após alguma atualização, configuração mal feita ou simplesmente se o chip micro sd parar de funcionar. pode-se usar um criador de dispositivos bootáveis ou a ferramenta ”dd” do linux, que eu acho muito mais simples, eficiente e rápido.
+
+==> sudo dd if=/dev/sdx of=/mnt/dir_backup/nome_bkp_img bs=4M status=progress
+
+
+
+
+0- AUTOR:
+
+Antonio Marcos de Paula Caetano
+
+0- NOTAS:
+
+Para fins de consulta foi criado este documento com o processo completo de instalação e configuração do openmediavault.
+                                                                     
+0- HISTÓRICO:
+
+30 de Maio de 2024 - Antonio Caetano iniciou o desenvolvimento deste documento.
+
+Última atualização: 17 de Março de 2025.
+
+0- LICENÇA:
+
+Gnu/Gpl
+
+
+

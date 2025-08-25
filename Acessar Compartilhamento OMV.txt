@@ -1,0 +1,121 @@
+#------------------ CONFIGURAÇÕES PARA ACESSAR SERVIDOR DE ARQUIVOS DO OpenMediaVault EM DISTRIBUIÇÕES LINUX --------------------#
+
+#1 ARCHLINUX
+
+  Instalar pacotes para os protocolos SMB/CIFS e NFS
+
+  => sudo pacman -Syu cifs-utils nfs-utils
+
+  Identificar o tipo de compartilhamento: O OpenMediaVault pode compartilhar arquivos usando diferentes protocolos, como SMB/CIFS (comum em ambientes Windows) ou NFS (comum em ambientes Unix/Linux). Verifique qual tipo de compartilhamento você está usando no OpenMediaVault.
+
+
+  Criar Ponto de montagem 
+
+  => sudo mkdir -p /mnt/nome_share
+
+
+  Montar manualmente
+
+  => Protocolo CIFS: sudo mount -t cifs //ip_server/nome_share /mnt/nome_share -o username=nome_user,password=password_user
+  => Protocolo NFS: sudo mount -t nfs ip_server:nome_share /mnt/nome_share
+
+  Desmontar manualmente 
+  
+  => sudo umount /mnt/nome_share
+
+
+  Montar na inicialização do sistema incluindo linha no arquivo /etc/fstab
+
+  => Protocolo CIFS: //<ip_do_servidor>/<compartilhamento> /mnt/compartilhamento cifs username=<usuario>,password=<senha>,uid=1000,gid=1000 0 0
+  => Protocolo NFS: <ip_do_servidor>:<compartilhamento> /mnt/compartilhamento nfs defaults 0 0
+
+ 
+  Verificar se compartilhamento foi montado com sucesso
+
+  => df -h
+
+#-------------------------------------------------------------------------------------------------------------------------------------#
+
+#2 DEBIAN
+
+  Instalar pacotes para os protocolos SMB/CIFS e NFS
+
+  => sudo apt update
+  => sudo apt install cifs-utils nfs-common
+
+
+  Identificar o tipo de compartilhamento: O OpenMediaVault pode compartilhar arquivos usando diferentes protocolos, como SMB/CIFS (comum em ambientes Windows) ou NFS (comum em ambientes Unix/Linux). Verifique qual tipo de compartilhamento você está usando no OpenMediaVault.
+
+
+  Criar Ponto de montagem 
+
+  => sudo mkdir -p /mnt/compartilhamento
+
+
+  Montar manualmente
+
+  => Protocolo CIFS: sudo mount -t cifs //ip_server/nome_share /mnt/nome_share -o username=nome_user,password=password_user
+  => Protocolo NFS: sudo mount -t nfs ip_server:nome_share /mnt/nome_share
+
+
+  Montar na inicialização do sistema incluindo linha no arquivo /etc/fstab
+
+  => Protocolo CIFS: //ip_server/nome_share /mnt/nome_share cifs username=nome_user,password=password_user,uid=1000,gid=1000 0 0
+  => Protocolo NFS: ip_server:nome_share /mnt/nome_share nfs defaults 0 0
+
+ 
+  Verificar se compartilhamento foi montado com sucesso
+
+  => df -h
+
+
+OBS: Se o volume não montar será necessário verificar as configurações do OMV, dentre elas as configurações relacionadas ao shared folder, verificar se foram liberados os volumes criptografados ou checar se o mergerfs foi reiniciado junto com o sistema na dúvida clique no botão restart na aba storage > mergerfs > restart.
+
+
+#3 WINDOWS
+
+  => Acessar o gerenciador de arquivos e digitar na barra de endereço: \\<ip do servidor>\<nome compartilhamento OMV>
+  => Ou acessar o gerenciador de arquivos e descer um pouco na aba rede e verificar se aparece o servidor OMV disponivel e clicar para a cessar o compartilhamento
+
+
+0- AUTOR:
+
+Antonio Marcos de Paula Caetano
+
+0- NOTAS:
+
+Documento produzido para consulta pessoal e resolução futura de configurações do sistema openmediavault.
+
+                                                                     
+0- HISTÓRICO:
+
+30 de Maio de 2024 - Antonio Caetano iniciou o desenvolvimento deste documento.
+
+Última atualização: 30 de junho de 2024.
+
+0- LICENÇA:
+
+Gnu/Gpl
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

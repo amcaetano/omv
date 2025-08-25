@@ -1,0 +1,13 @@
+#-------------------------------------- PLUGINS PARA SERVIDOR DE ARQUIVOS DE ALTA PERFORMANCE --------------------------------------#
+
+#1 luksencryption 7.0 => Utilizado para criptografar discos e partições e assim melhorar consideravelmente a segurança dos dados armazenados.
+
+#2 multiple device => Ferramenta para criação de arranjos de disco do tipo raid (raid 0, raid 1 etc)
+
+#3 file browser => Software para acesso aos arquivos do servidor atraves do navegador web, usando qualquer dispositivo conectado na rede, podendo fazer upload, download, ler arquivos e copiar entre diretórios do servidor.
+
+#4 snapraid => Utilizado para montar um arranjo de discos com dispositivos de marcas e tamanhos diferentes.
+
+#5 mergerfs => Ferramenta utilizada para juntar vários discos de marcas e tamanhos difeentes e de forma logica mostrar ao usuario apenas um volume lógico.
+
+
