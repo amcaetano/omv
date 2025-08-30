@@ -1,4 +1,4 @@
-Este documento foi escrito com o intuito de ter uma copia de segurança para informações e configurações importantes para o software open media vault, informações estas adquiridas ao longo de um tempo em que eu instalei e configurei um servidor NAS e acabei enfrentando diversos problemas, mas com pesquisa e usando ao velho método "tentativa e erro" consegui resolver todos os problemas que sirgiram e espero que essas informações e arquivos possam ajudar as pessoas que enfrentaram os mesmo problemas que eu enfrentei.
+Este documento foi escrito com o intuito de ter uma copia de segurança para informações e configurações importantes para o software open media vault, informações estas adquiridas ao longo do tempo em que eu instalei e configurei um servidor NAS e acabei enfrentando diversos problemas, mas com pesquisa e usando ao velho método "tentativa e erro" consegui resolver todos os problemas que surgiram e espero que essas informações e arquivos possam ajudar outras pessoas que enfrentaram os mesmo problemas que eu enfrentei.
 
 
 
